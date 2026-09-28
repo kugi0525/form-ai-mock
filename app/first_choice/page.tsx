@@ -14,8 +14,8 @@ export default function FirstChoice() {
   const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async () => {
-    if (!category || !detail.trim()) {
-      setError('カテゴリと詳細を入力してください');
+    if (!category) {
+      setError('フォームの種類を選択してください');
       return;
     }
 

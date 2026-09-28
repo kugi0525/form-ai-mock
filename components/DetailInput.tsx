@@ -17,7 +17,7 @@ export default function DetailInput({
     <div className="space-y-4">
       <div>
         <label htmlFor="detail" className="block text-sm font-medium mb-2">
-          フォームの詳細を説明してください
+          フォームの詳細を説明してください <span className="text-gray-500 text-xs">(任意)</span>
         </label>
         <textarea
           id="detail"
@@ -31,7 +31,7 @@ export default function DetailInput({
       </div>
       <button
         onClick={onSubmit}
-        disabled={!value.trim() || isLoading}
+        disabled={isLoading}
         className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >
         {isLoading ? 'フォーム作成中...' : 'フォームを生成'}

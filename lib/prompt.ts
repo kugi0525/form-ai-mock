@@ -7,12 +7,16 @@ const categoryPrompts: Record<FormCategory, string> = {
 };
 
 export function buildPrompt(category: FormCategory, detail: string): string {
-  return `You are a form generator. Generate a JSON form definition based on the user's requirements.
+  const userDetails = detail.trim()
+    ? `User's detailed requirements: ${detail}`
+    : 'Generate a typical form for this category.';
+
+  return `You are a form generator. Generate a JSON form definition based on the category.
 
 Category: ${category}
 Typical fields for this category: ${categoryPrompts[category]}
 
-User's detailed requirements: ${detail}
+${userDetails}
 
 Generate a JSON form schema with the following structure (output ONLY valid JSON, no markdown, no explanation):
 {
@@ -29,7 +33,7 @@ Generate a JSON form schema with the following structure (output ONLY valid JSON
 }
 
 Requirements:
-- Generate 3-8 fields matching the category and user's requirements
+- Generate 3-8 fields matching the category
 - Each field must have a meaningful label
 - Select appropriate field types
 - Output ONLY the JSON object, absolutely no markdown code blocks or explanations

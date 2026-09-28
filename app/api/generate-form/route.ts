@@ -19,12 +19,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!detail || detail.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'Detail is required' },
-        { status: 400 }
-      );
-    }
 
     // OpenAI APIを呼び出し
     const client = getOpenAIClient();
