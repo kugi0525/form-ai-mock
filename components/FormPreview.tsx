@@ -97,17 +97,12 @@ export default function FormPreview({ schema, onRegenerate }: FormPreviewProps) 
         </form>
       </div>
 
-      <div className="flex gap-2">
-        <button
-          onClick={onRegenerate}
-          className="flex-1 bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
-        >
-          もう一度生成
-        </button>
-        <button className="flex-1 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition-colors">
-          このフォームを使用
-        </button>
-      </div>
+      <button
+        onClick={onRegenerate}
+        className="w-full bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
+      >
+        戻る
+      </button>
     </div>
   );
 }

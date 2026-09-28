@@ -17,7 +17,7 @@ export default function DetailInput({
     <div className="space-y-4">
       <div>
         <label htmlFor="detail" className="block text-sm font-medium mb-2">
-          フォームの詳細を説明してください <span className="text-gray-500 text-xs">(任意)</span>
+          フォームの詳細を説明してください
         </label>
         <textarea
           id="detail"
