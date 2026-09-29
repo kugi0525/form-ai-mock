@@ -4,7 +4,7 @@ import { FormSchema } from '@/types/form';
 
 interface FormPreviewProps {
   schema: FormSchema;
-  onRegenerate: () => void;
+  onRegenerate?: () => void;
 }
 
 export default function FormPreview({ schema, onRegenerate }: FormPreviewProps) {
@@ -97,12 +97,14 @@ export default function FormPreview({ schema, onRegenerate }: FormPreviewProps) 
         </form>
       </div>
 
-      <button
-        onClick={onRegenerate}
-        className="w-full bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
-      >
-        戻る
-      </button>
+      {onRegenerate && (
+        <button
+          onClick={onRegenerate}
+          className="w-full bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors"
+        >
+          戻る
+        </button>
+      )}
     </div>
   );
 }

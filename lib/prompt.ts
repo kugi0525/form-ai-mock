@@ -1,4 +1,4 @@
-import { FormCategory, FormSchema } from '@/types/form';
+import { FormCategory, FormSchema, QA } from '@/types/form';
 
 const categoryPrompts: Record<FormCategory, string> = {
   survey: 'アンケート形式。典型項目例: 年代、性別、満足度（5段階評価）、意見・感想など',
@@ -57,4 +57,8 @@ export function extractJSON(text: string): FormSchema | null {
   } catch {
     return null;
   }
+}
+
+export function formatHistory(history: QA[]): string {
+  return history.map(({ question, answer }) => `Q: ${question}\nA: ${answer}`).join('\n');
 }

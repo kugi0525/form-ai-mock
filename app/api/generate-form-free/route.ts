@@ -1,28 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getOpenAIClient, OPENAI_MODEL } from '@/lib/openai';
-import { buildPrompt, extractJSON } from '@/lib/prompt';
-import { FormCategory } from '@/types/form';
+import { extractJSON, formatHistory } from '@/lib/prompt';
+import { QA } from '@/types/form';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { category, detail } = body as {
-      category: FormCategory;
-      detail: string;
+    const { description, history = [] } = body as {
+      description: string;
+      history?: QA[];
     };
 
-    // バリデーション
-    if (!category || !['survey', 'campaign', 'contact'].includes(category)) {
+    if (!description || description.trim().length === 0) {
       return NextResponse.json(
-        { error: 'Invalid category' },
+        { error: 'フォームの説明を入力してください' },
         { status: 400 }
       );
     }
 
-
-    // OpenAI APIを呼び出し
     const client = getOpenAIClient();
-    const prompt = buildPrompt(category, detail);
+    const prompt = `You are a form generator. Generate a JSON form definition based on the user's description.
+
+User's requirements: ${description}
+${history.length > 0 ? `\nAdditional context from Q&A with the user:\n${formatHistory(history)}\n` : ''}
+Generate a JSON form schema with the following structure (output ONLY valid JSON, no markdown, no explanation):
+{
+  "title": "string",
+  "description": "string",
+  "fields": [
+    {
+      "label": "string",
+      "type": "text|textarea|radio|checkbox|select|email|date",
+      "required": true or false,
+      "options": ["string"] // only for radio/checkbox/select types
+    }
+  ]
+}
+
+Requirements:
+- Generate 3-8 fields matching the user's requirements
+- Each field must have a meaningful label
+- Select appropriate field types
+- Output ONLY the JSON object, absolutely no markdown code blocks or explanations
+- Ensure valid JSON syntax`;
 
     const response = await client.chat.completions.create({
       model: OPENAI_MODEL,
@@ -35,7 +55,6 @@ export async function POST(request: NextRequest) {
       ]
     });
 
-    // レスポンスからJSONを抽出
     const content = response.choices[0].message.content;
     if (!content) {
       return NextResponse.json(

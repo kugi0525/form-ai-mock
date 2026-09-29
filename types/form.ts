@@ -12,3 +12,8 @@ export interface FormSchema {
   description: string;
   fields: FormField[];
 }
+
+export interface QA {
+  question: string;
+  answer: string;
+}

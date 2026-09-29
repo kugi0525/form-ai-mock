@@ -9,3 +9,5 @@ export function getOpenAIClient(): OpenAI {
 
   return new OpenAI({ apiKey });
 }
+
+export const OPENAI_MODEL = 'gpt-6-luna';
